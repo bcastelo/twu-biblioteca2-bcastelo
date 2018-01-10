@@ -70,23 +70,18 @@ public class BangalorePublicLibrary {
         Scanner scanner = new Scanner(System.in);
         String titleBook = scanner.next();
 
-        if (this.getBooks().stream().filter(o -> o.getTitle().equals(titleBook)).findFirst().isPresent()) {
-            for (int i = 0; i < books.size(); i++) {
-                if(this.books.get(i).getTitle().equals(titleBook) && this.books.get(i).getCheckout() == true) {
-                    if (this.books.get(i).getTitle().equals(titleBook)) {
-                        books.get(i).setCheckout(false);
-                        System.out.println("Thank you for returning the book.");
-                        return;
-                    }
-                }
-                else {
-                    System.out.println("That is not a valid book to return.");
-                    return;
-                }
-            }
+        boolean existBook = findBook(titleBook);
+
+        if (existBook) {
+            Book bookCheckOut = getBook(titleBook);
+            setBookReturn(bookCheckOut);
+            System.out.println("Thank you for returning the book.");
         } else {
             System.out.println("That is not a valid book to return.");
-            return;
         }
+    }
+
+    public void setBookReturn(Book bookReturn) {
+        bookReturn.setCheckout(false);
     }
 }
