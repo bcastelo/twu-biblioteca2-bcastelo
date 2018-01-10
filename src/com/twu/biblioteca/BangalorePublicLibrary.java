@@ -7,13 +7,22 @@ import java.util.Scanner;
 public class BangalorePublicLibrary {
 
     private List<Book> books = new ArrayList<Book>();
+    private List<Movie> movies = new ArrayList<Movie>();
 
     public List<Book> getBooks() {
         return books;
     }
 
+    public  List<Movie> getMovies(){
+        return movies;
+    }
+
     public void setBooks(Book book) {
         books.add(book);
+    }
+
+    public void setMovies(Movie movie) {
+        movies.add(movie);
     }
 
     public void listBooks() {
@@ -30,14 +39,19 @@ public class BangalorePublicLibrary {
 
         System.out.println("\nWhich book(Title) do you like do checkout?");
         Scanner scanner = new Scanner(System.in);
-        String titleBook = scanner.next();
+        String titleBook = scanner.nextLine();
 
         boolean existBook = findBook(titleBook);
 
         if(existBook){
-            Book bookCheckOut = getBook(titleBook);
-            setBookCheckOut(bookCheckOut);
-            System.out.println("Thank you! Enjoy the book");
+            boolean bookIsDisponible = bookIsDisponible(titleBook);
+            if(bookIsDisponible) {
+                Book bookCheckOut = getBook(titleBook);
+                setBookCheckOut(bookCheckOut);
+                System.out.println("Thank you! Enjoy the book");
+            } else {
+                System.out.println("That book is not available.");
+            }
         } else {
             System.out.println("That book is not available.");
         }
@@ -51,13 +65,16 @@ public class BangalorePublicLibrary {
         }
     }
 
-    public Book getBook(String titleBook) {
-        for (int i = 0 ; i < books.size(); i++) {
-            if(this.books.get(i).getTitle().equals(titleBook) && this.books.get(i).getCheckout() == false){
-                return this.books.get(i);
-            }
+    public boolean bookIsDisponible(String titleBook) {
+        if(((this.getBooks().stream().filter(o -> o.getTitle().equals(titleBook)).findFirst().get().getCheckout()) == false)) {
+            return true;
+        } else {
+            return false;
         }
-        return null;
+    }
+
+    public Book getBook(String titleBook) {
+        return this.getBooks().stream().filter(o -> o.getTitle().equals(titleBook)).findFirst().get();
     }
 
     public void setBookCheckOut(Book bookCheckOut) {
@@ -68,14 +85,19 @@ public class BangalorePublicLibrary {
 
         System.out.println("\nWhich book(Title) do you like return?");
         Scanner scanner = new Scanner(System.in);
-        String titleBook = scanner.next();
+        String titleBook = scanner.nextLine();
 
         boolean existBook = findBook(titleBook);
 
         if (existBook) {
-            Book bookCheckOut = getBook(titleBook);
-            setBookReturn(bookCheckOut);
-            System.out.println("Thank you for returning the book.");
+            boolean bookIsDisponible = bookIsDisponible(titleBook);
+            if(!bookIsDisponible) {
+                Book bookCheckOut = getBook(titleBook);
+                setBookReturn(bookCheckOut);
+                System.out.println("Thank you for returning the book.");
+            } else {
+                System.out.println("That is not a valid book to return.");
+            }
         } else {
             System.out.println("That is not a valid book to return.");
         }
@@ -84,4 +106,5 @@ public class BangalorePublicLibrary {
     public void setBookReturn(Book bookReturn) {
         bookReturn.setCheckout(false);
     }
+
 }

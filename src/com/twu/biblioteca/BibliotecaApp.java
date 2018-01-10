@@ -10,6 +10,17 @@ public class BibliotecaApp {
 
         bangalorePublicLibrary = new BangalorePublicLibrary();
 
+        Book book1 = new Book("Harry Potter and the Philosopher's Stone","J. K. Rowling", 2001);
+        book1.setCheckout(true);
+        Book book2 = new Book("Harry Potter and the Chamber of Secrets","J. K. Rowling", 2002);
+        book2.setCheckout(false);
+        Book book3 = new Book("Harry Potter and the Prisoner of Azkaban","J. K. Rowling", 2004);
+        book3.setCheckout(true);
+
+        bangalorePublicLibrary.setBooks(book1);
+        bangalorePublicLibrary.setBooks(book2);
+        bangalorePublicLibrary.setBooks(book3);
+
         WelcomeMessage();
         displayMainMenu();
 
