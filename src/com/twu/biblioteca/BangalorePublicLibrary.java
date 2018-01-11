@@ -6,105 +6,107 @@ import java.util.Scanner;
 
 public class BangalorePublicLibrary {
 
-    private List<Book> books = new ArrayList<Book>();
-    private List<Movie> movies = new ArrayList<Movie>();
+    private List<ItemsToCheck> items = new ArrayList<ItemsToCheck>();
 
-    public List<Book> getBooks() {
-        return books;
+    public List<ItemsToCheck> getItems() {
+        return items;
     }
 
-    public  List<Movie> getMovies(){
-        return movies;
-    }
-
-    public void setBooks(Book book) {
-        books.add(book);
-    }
-
-    public void setMovies(Movie movie) {
-        movies.add(movie);
+    public void setItems(ItemsToCheck item) {
+        items.add(item);
     }
 
     public void listBooks() {
         System.out.println("\n\nList Books!");
         System.out.println("\n\tTitle \tAuthor \tYear Published");
 
-        for (Book book : this.getBooks()) {
-            System.out.println(book.toString());
+        for (ItemsToCheck item : this.getItems()) {
+            if(item.getClass() == Book.class) {
+                System.out.println(item.toString());
+            }
+        }
+    }
+
+    public void listMovies() {
+        System.out.println("\n\nList Movies!");
+        System.out.println("\n\tTitle \tDirector \tYear \tRating");
+
+        for (ItemsToCheck item : this.getItems()) {
+            if(item.getClass() == Movie.class) {
+                System.out.println(item.toString());
+            }
         }
     }
 
     public void checkout() {
-        listBooks();
-
-        System.out.println("\nWhich book(Title) do you like do checkout?");
+        System.out.println("\nWhich Title do you like do checkout?");
         Scanner scanner = new Scanner(System.in);
-        String titleBook = scanner.nextLine();
+        String title = scanner.nextLine();
 
-        boolean existBook = findBook(titleBook);
+        boolean existBook = findItem(title);
 
         if(existBook){
-            boolean bookIsDisponible = bookIsDisponible(titleBook);
-            if(bookIsDisponible) {
-                Book bookCheckOut = getBook(titleBook);
-                setBookCheckOut(bookCheckOut);
-                System.out.println("Thank you! Enjoy the book");
+            boolean itemIsDisponible = itemIsDisponible(title);
+            if(itemIsDisponible) {
+                ItemsToCheck itemCheckOut = getItem(title);
+                setItemCheckOut(itemCheckOut);
+                System.out.println("Thank you! Enjoy the item");
             } else {
-                System.out.println("That book is not available.");
+                System.out.println("That item is not available.");
             }
         } else {
-            System.out.println("That book is not available.");
+            System.out.println("That item is not available.");
         }
     }
 
-    public boolean findBook(String titleBook) {
-        if((this.getBooks().stream().filter(o -> o.getTitle().equals(titleBook)).findFirst().isPresent())) {
+    public boolean findItem(String title) {
+        if((this.getItems().stream().filter(o -> o.getTitle().equals(title)).findFirst().isPresent())) {
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean bookIsDisponible(String titleBook) {
-        if(((this.getBooks().stream().filter(o -> o.getTitle().equals(titleBook)).findFirst().get().getCheckout()) == false)) {
+    public boolean itemIsDisponible(String title) {
+        if(((this.getItems().stream().filter(o -> o.getTitle().equals(title)).findFirst().get().getReservate()) == false)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public Book getBook(String titleBook) {
-        return this.getBooks().stream().filter(o -> o.getTitle().equals(titleBook)).findFirst().get();
+    public ItemsToCheck getItem(String title) {
+        return this.getItems().stream().filter(o -> o.getTitle().equals(title)).findFirst().get();
     }
 
-    public void setBookCheckOut(Book bookCheckOut) {
-        bookCheckOut.setCheckout(true);
+    public void setItemCheckOut(ItemsToCheck itemCheckOut) {
+        itemCheckOut.setReservate(true);
     }
 
-    public void returnBook() {
+    public void returnItem() {
 
-        System.out.println("\nWhich book(Title) do you like return?");
+        System.out.println("\nWhich Title do you like return?");
         Scanner scanner = new Scanner(System.in);
-        String titleBook = scanner.nextLine();
+        String title = scanner.nextLine();
 
-        boolean existBook = findBook(titleBook);
+        boolean existItem = findItem(title);
 
-        if (existBook) {
-            boolean bookIsDisponible = bookIsDisponible(titleBook);
-            if(!bookIsDisponible) {
-                Book bookCheckOut = getBook(titleBook);
-                setBookReturn(bookCheckOut);
-                System.out.println("Thank you for returning the book.");
+        if (existItem) {
+            boolean itemIsDisponible = itemIsDisponible(title);
+            if(!itemIsDisponible) {
+                ItemsToCheck itemCheckOut = getItem(title);
+                setBookReturn(itemCheckOut);
+                System.out.println("Thank you for returning the item.");
             } else {
-                System.out.println("That is not a valid book to return.");
+                System.out.println("That is not a valid item to return.");
             }
         } else {
-            System.out.println("That is not a valid book to return.");
+            System.out.println("That is not a valid item to return.");
         }
     }
 
-    public void setBookReturn(Book bookReturn) {
-        bookReturn.setCheckout(false);
+    public void setBookReturn(ItemsToCheck itemReturn) {
+        itemReturn.setReservate(false);
     }
 
 }
