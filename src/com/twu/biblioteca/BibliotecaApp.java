@@ -10,7 +10,7 @@ public class BibliotecaApp {
 
         bangalorePublicLibrary = new BangalorePublicLibrary();
 
-        Book book1 = new Book("Harry Potter and the Philosopher's Stone","J. K. Rowling", 2001);
+        Book book1 = new Book("Episode IX","J. K. Rowling", 2001);
         Book book2 = new Book("Harry Potter and the Chamber of Secrets","J. K. Rowling", 2002);
         Book book3 = new Book("Harry Potter and the Prisoner of Azkaban","J. K. Rowling", 2004);
 
@@ -70,19 +70,19 @@ public class BibliotecaApp {
                 bangalorePublicLibrary.listBooks();
                 break;
             case "2":
-                bangalorePublicLibrary.checkout();
+                bangalorePublicLibrary.checkout("Book");
                 break;
             case "3":
-                bangalorePublicLibrary.returnItem();
+                bangalorePublicLibrary.returnItem("Book");
                 break;
             case "4":
                 bangalorePublicLibrary.listMovies();
                 break;
             case "5":
-                bangalorePublicLibrary.checkout();
+                bangalorePublicLibrary.checkout("Movie");
                 break;
             case "6":
-                bangalorePublicLibrary.returnItem();
+                bangalorePublicLibrary.returnItem("Movie");
                 break;
 
             case "0":

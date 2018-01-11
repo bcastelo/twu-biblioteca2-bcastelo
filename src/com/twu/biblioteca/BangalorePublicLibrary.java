@@ -38,24 +38,39 @@ public class BangalorePublicLibrary {
         }
     }
 
-    public void checkout() {
+    public void checkout(String type) {
+
         System.out.println("\nWhich Title do you like do checkout?");
         Scanner scanner = new Scanner(System.in);
         String title = scanner.nextLine();
 
-        boolean existBook = findItem(title);
+        boolean existItem = findItem(title);
 
-        if(existBook){
-            boolean itemIsDisponible = itemIsDisponible(title);
-            if(itemIsDisponible) {
-                ItemsToCheck itemCheckOut = getItem(title);
-                setItemCheckOut(itemCheckOut);
-                System.out.println("Thank you! Enjoy the item");
+        if(existItem){
+            ItemsToCheck itemCheckOut = getItem(title);
+            boolean typyItem = typeItem(type, itemCheckOut);
+            if(typyItem) {
+                boolean itemIsDisponible = itemIsDisponible(title);
+                if(itemIsDisponible) {
+
+                    setItemCheckOut(itemCheckOut);
+                    System.out.println("Thank you! Enjoy the item");
+                } else {
+                    System.out.println("That item is not available.");
+                }
             } else {
                 System.out.println("That item is not available.");
             }
         } else {
             System.out.println("That item is not available.");
+        }
+    }
+
+    private boolean typeItem(String type, ItemsToCheck item) {
+        if(type.equals("Movie")) {
+            return (item.getClass() == Movie.class);
+        } else {
+            return (item.getClass() == Book.class);
         }
     }
 
@@ -83,7 +98,7 @@ public class BangalorePublicLibrary {
         itemCheckOut.setReservate(true);
     }
 
-    public void returnItem() {
+    public void returnItem(String type) {
 
         System.out.println("\nWhich Title do you like return?");
         Scanner scanner = new Scanner(System.in);
@@ -92,11 +107,16 @@ public class BangalorePublicLibrary {
         boolean existItem = findItem(title);
 
         if (existItem) {
-            boolean itemIsDisponible = itemIsDisponible(title);
-            if(!itemIsDisponible) {
-                ItemsToCheck itemCheckOut = getItem(title);
-                setBookReturn(itemCheckOut);
-                System.out.println("Thank you for returning the item.");
+            ItemsToCheck itemCheckOut = getItem(title);
+            boolean typyItem = typeItem(type, itemCheckOut);
+            if(typyItem) {
+                boolean itemIsDisponible = itemIsDisponible(title);
+                if (!itemIsDisponible) {
+                    setBookReturn(itemCheckOut);
+                    System.out.println("Thank you for returning the item.");
+                } else {
+                    System.out.println("That is not a valid item to return.");
+                }
             } else {
                 System.out.println("That is not a valid item to return.");
             }
