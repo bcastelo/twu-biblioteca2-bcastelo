@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class BibliotecaApp {
 
     static BangalorePublicLibrary bangalorePublicLibrary;
+    static Client client;
 
     public static void main(String[] args) {
 
@@ -26,6 +27,9 @@ public class BibliotecaApp {
         bangalorePublicLibrary.setItems(movie2);
         bangalorePublicLibrary.setItems(movie3);
 
+        //client = new Client("bruna", "abc", "abc", "abc", "abc", "abc");
+        bangalorePublicLibrary.setClients(new Client("bruna", "abc", "abc", "abc", "abc", "abc"));
+
         WelcomeMessage();
         displayMainMenu();
 
@@ -38,9 +42,7 @@ public class BibliotecaApp {
         System.out.println("Please, what your name? ");
 
         String customerName = scanner.nextLine();
-        Client client = new Client(customerName);
-
-        System.out.println("Welcome, " + client.getName());
+        System.out.println("Welcome, " + customerName);
     }
 
     private static void displayMainMenu() {
@@ -56,6 +58,8 @@ public class BibliotecaApp {
             System.out.println("4 - List Movie");
             System.out.println("5 - Checkout Movie");
             System.out.println("6 - Return Movie");
+            System.out.println("7 - User Information");
+            System.out.println("8 - Login User");
             System.out.println("0 - Quit");
             System.out.print("\nSelect a Menu Option: ");
             op = input.next();
@@ -70,21 +74,26 @@ public class BibliotecaApp {
                 bangalorePublicLibrary.listBooks();
                 break;
             case "2":
-                bangalorePublicLibrary.checkout("Book");
+                bangalorePublicLibrary.checkout("Book", client);
                 break;
             case "3":
-                bangalorePublicLibrary.returnItem("Book");
+                bangalorePublicLibrary.returnItem("Book", client);
                 break;
             case "4":
                 bangalorePublicLibrary.listMovies();
                 break;
             case "5":
-                bangalorePublicLibrary.checkout("Movie");
+                bangalorePublicLibrary.checkout("Movie", client);
                 break;
             case "6":
-                bangalorePublicLibrary.returnItem("Movie");
+                bangalorePublicLibrary.returnItem("Movie", client);
                 break;
-
+            case "7":
+                bangalorePublicLibrary.returnItem("Movie", client);
+                break;
+            case "8":
+                client = bangalorePublicLibrary.login();
+                break;
             case "0":
                 System.out.print("Thank you, and come back soon!");
                 break;
